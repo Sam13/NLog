@@ -1,3 +1,5 @@
+using System.Threading;
+
 namespace NLogReceiverService
 {
     using System;
@@ -21,8 +23,12 @@ namespace NLogReceiverService
             var host = new ServiceHost(typeof(LogReceiverServer), new Uri("http://localhost:8000/"));
             host.Open();
             Console.WriteLine("Host opened");
-            Console.Write("Press ENTER to close");
-            Console.ReadLine();
+            Console.Write("Press CTRL+C to close");
+            using (var closingEvent = new AutoResetEvent(false))
+            {
+                Console.CancelKeyPress += (sender, eventArgs) => closingEvent.Set();
+                closingEvent.WaitOne();
+            }
             Console.WriteLine("Closing host");
             webServiceHost.Close();
             //webServiceHost2.Close();
