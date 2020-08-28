@@ -23,9 +23,11 @@ namespace NLogReceiverService
             Console.WriteLine("Host opened");
             Console.Write("Press ENTER to close");
             Console.ReadLine();
+            Console.WriteLine("Closing host");
             webServiceHost.Close();
             //webServiceHost2.Close();
             host.Close();
+            Console.WriteLine("Host closed");
         }
     }
 }
